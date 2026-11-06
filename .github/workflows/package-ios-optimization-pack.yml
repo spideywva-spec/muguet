@@ -1,0 +1,29 @@
+name: Package iOS optimization pack
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create ZIP
+        run: |
+          set -euo pipefail
+          test -d optimization/ios
+          mkdir -p dist
+          zip -r dist/muguet-ios-optimization-pack.zip optimization/ios
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: muguet-ios-optimization-pack
+          path: dist/muguet-ios-optimization-pack.zip
+          if-no-files-found: error
+          retention-days: 30

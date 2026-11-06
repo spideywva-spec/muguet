@@ -2,6 +2,12 @@ name: Package iOS optimization pack
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - ios-2gb-optimization-pack
+    paths:
+      - 'optimization/ios/**'
+      - '.github/workflows/package-ios-optimization-pack.yml'
 
 permissions:
   contents: read

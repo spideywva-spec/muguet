@@ -1,0 +1,61 @@
+# EXPERIMENTAL POLICY — documentation/specification only.
+# This file is NOT loaded by Muguet until explicitly integrated in source code.
+# Values are initial test targets, not proven safe limits or guaranteed FPS.
+
+[device]
+target_class = "iPhone with 2 GB physical RAM"
+minimum_ios = "15"
+mode = "low_memory_experimental"
+
+[memory]
+# App-process working-set targets; iOS may terminate the app below these values.
+soft_warning_mib = 700
+target_ceiling_mib = 900
+critical_pressure_mib = 1100
+# Never assume the full physical RAM is available to the app.
+reserve_for_ios_and_other_processes_mib = 700
+
+[asset_streaming]
+# Intended behavior for a future streaming implementation.
+prefer_streaming_over_bulk_decode = true
+decode_one_large_asset_batch_at_a_time = true
+release_unused_decoded_assets_promptly = true
+avoid_duplicate_cpu_and_gpu_asset_copies = true
+preload_all_world_assets = false
+
+[texture_policy]
+# Must be implemented through the actual asset/renderer pipeline.
+prefer_astc_when_supported = true
+fallback_to_compressed_source_when_possible = true
+use_mipmaps_for_3d_world_textures = true
+limit_high_resolution_texture_residency = true
+disable_unbounded_texture_cache_growth = true
+
+[renderer]
+# These are intended policy decisions, not wgpu API identifiers.
+quality_preset = "low"
+shadow_quality = "off_or_low"
+reflection_quality = "off"
+post_processing = "minimum"
+render_scale = 0.70
+dynamic_resolution = true
+dynamic_resolution_min_scale = 0.55
+dynamic_resolution_max_scale = 0.80
+
+[frame_pacing]
+target_fps = 30
+allow_60_fps_only_after_device_validation = true
+avoid_busy_wait_loops = true
+reduce_background_work_when_frame_is_late = true
+
+[thermal]
+reduce_render_scale_on_serious_thermal_pressure = true
+reduce_asset_prefetch_on_thermal_pressure = true
+pause_nonessential_background_tasks = true
+
+[recovery]
+handle_memory_warning = true
+stop_prefetch_on_memory_warning = true
+evict_recreatable_caches_first = true
+persist_progress_before_backgrounding = true
+recreate_gpu_resources_after_device_restore = true
